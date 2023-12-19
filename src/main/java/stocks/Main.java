@@ -9,6 +9,8 @@ import stocks.utilities.TestData;
 
 public class Main {
     private static WebDriver driver;
+    private static final String strategy = "Hull suite strategy";
+    private static final String csvPath = "src/test/resources/data/input.csv";
 
     public static void main(String[] args) {
         try {
@@ -20,10 +22,11 @@ public class Main {
             final var credentials = TestData.getCredentials2();
             flows.goToHomePage(credentials.username(), credentials.password());
 
-            flows.selectInterval(1); //1min
-            flows.selectStrategy("Hull suite strategy"); //strategy name
+            final var allData = TestData.getAllData(csvPath);
 
-            final var allData = TestData.getAllData();
+            flows.selectInterval(1); //1min
+            flows.selectStrategy(strategy); //strategy name
+
             for (var data : allData) {
                 flows.fillData(data);
             }
