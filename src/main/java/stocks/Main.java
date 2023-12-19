@@ -23,8 +23,11 @@ public class Main {
             flows.selectInterval(1); //1min
             flows.selectStrategy("Hull suite strategy"); //strategy name
 
-            final var data = TestData.getData();
-            flows.fillData(data);
+            final var allData = TestData.getAllData();
+            for (var data : allData) {
+                flows.fillData(data);
+            }
+
         } catch (Exception e) {
             Logs.error(e.getLocalizedMessage());
         } finally {

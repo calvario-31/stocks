@@ -87,7 +87,7 @@ public class Flows {
             }
         }
 
-        AutomationUtils.automationSleep(500);
+        AutomationUtils.automationSleep(1000);
 
         Logs.info("Gathering results");
         final var superChartBottomBar = new SuperChartBottomBar(driver);
