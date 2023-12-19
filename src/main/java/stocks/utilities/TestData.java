@@ -2,7 +2,8 @@ package stocks.utilities;
 
 import stocks.model.Credential;
 import stocks.model.Data;
-import stocks.parsear.CsvParser;
+import stocks.parsear.CredentialParser;
+import stocks.parsear.DataParser;
 
 import java.io.File;
 import java.util.List;
@@ -10,14 +11,16 @@ import java.util.List;
 public class TestData {
     public static List<Data> getAllData(String path) {
         final var file = new File(path);
-        final var listRawInput = FileManager.leerFile(file);
+        final var listRawInput = FileManager.readFile(file);
         Logs.debug("raw list: %s", listRawInput);
 
-        return CsvParser.createDataList(listRawInput);
+        return DataParser.createDataList(listRawInput);
     }
 
-    public static Credential getCredentials() {
-        return new Credential("pruebas_aaaa@proton.me", "aBcDeFg123456_");
+    public static Credential getCredentials(String path) {
+        final var file = new File(path);
+        final var listRawInput = FileManager.readFile(file);
+        return CredentialParser.createCredentials(listRawInput);
     }
 
     public static Credential getCredentials2() {

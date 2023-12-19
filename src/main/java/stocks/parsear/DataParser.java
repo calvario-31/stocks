@@ -2,12 +2,11 @@ package stocks.parsear;
 
 import stocks.model.Data;
 import stocks.model.SingleData;
-import stocks.utilities.Logs;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvParser {
+public class DataParser {
     public static List<Data> createDataList(List<String> rawInputList) {
         final var dataList = new ArrayList<Data>();
 
@@ -28,13 +27,10 @@ public class CsvParser {
 
         for (var value : arrayString) {
             if (isNumeric(value)) {
-                Logs.debug("value: %s\tnumeric", value);
                 singleData = new SingleData(Integer.parseInt(value));
             } else if (isBoolean(value)) {
-                Logs.debug("value: %s\tboolean", value);
                 singleData = new SingleData(Boolean.parseBoolean(value));
             } else {
-                Logs.debug("value: %s\tstring", value);
                 singleData = new SingleData(value);
             }
 

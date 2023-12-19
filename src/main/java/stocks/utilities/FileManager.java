@@ -24,14 +24,14 @@ public class FileManager {
         System.setErr(ps);
     }
 
-    public static List<String> leerFile(File file) {
-        final var lista = new ArrayList<String>(); //lista del contenido del file
+    public static List<String> readFile(File file) {
+        final var list = new ArrayList<String>(); //lista del contenido del file
 
         try {
             final var scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
-                lista.add(scanner.nextLine());
+                list.add(scanner.nextLine());
             }
 
             scanner.close();
@@ -39,15 +39,15 @@ public class FileManager {
             Logs.error("FileNotFoundException: %s", fileNotFoundException.getLocalizedMessage());
         }
 
-        return lista;
+        return list;
     }
 
-    public static void escribirFile(File file, List<String> lista) {
+    public static void writeFile(File file, List<String> list) {
         try {
             final var fileWriter = new FileWriter(file);
 
-            for (var linea : lista) {
-                final var lineaEscribir = String.format("%s%n", linea); //escribo la línea y un salto de línea
+            for (var line : list) {
+                final var lineaEscribir = String.format("%s%n", line); //escribo la línea y un salto de línea
                 fileWriter.write(lineaEscribir);
             }
 
