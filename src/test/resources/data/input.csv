@@ -1,2 +1,5 @@
-long,2013,12,24,2023,7,6,open,Ehma,26,True,True,True,1,40
-all,2013,9,17,2021,6,8,close,Thma,74,False,True,True,1,40
+all,2015,1,1,2029,1,1,close,Ehma,56,false,false,false,1,40
+long,2016,1,1,2029,1,1,hl2,Hma,55,false,false,false,1,40
+short,2015,1,1,2029,1,1,hlc3,Hma,40,true,false,false,1,40
+short,2016,1,1,2029,1,1,hlc3,Hma,45,true,false,true,1,40
+short,2016,1,1,2029,1,1,hlcc4,Ehma,48,true,false,true,1,40

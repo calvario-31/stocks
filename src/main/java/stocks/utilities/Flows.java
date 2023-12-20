@@ -85,14 +85,14 @@ public class Flows {
                 case LIST -> technicalStrategy.selectListELement(currentData.getStringValue(), currentElement);
                 case CHECKBOX -> technicalStrategy.selectCheckboxValue(currentData.isBooleanValue(), currentElement);
             }
+
+            AutomationUtils.automationSleep(500);
+
+            Logs.info("Gathering results");
+            final var superChartBottomBar = new SuperChartBottomBar(driver);
+            final var result = superChartBottomBar.getCurrentResults();
+            Logs.info("result: %s", result);
+            data.setResult(result);
         }
-
-        AutomationUtils.automationSleep(1000);
-
-        Logs.info("Gathering results");
-        final var superChartBottomBar = new SuperChartBottomBar(driver);
-        final var result = superChartBottomBar.getCurrentResults();
-        Logs.info("result: %s", result);
-        data.setResult(result);
     }
 }
