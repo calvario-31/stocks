@@ -33,9 +33,9 @@ public class Main {
             }
 
         } catch (Exception e) {
-            Logs.error(e.getLocalizedMessage());
+            Logs.error("exception: %s, %s", e.getClass().getSimpleName(), e.getLocalizedMessage());
         } finally {
-            AutomationUtils.killDriver(driver);
+            // AutomationUtils.killDriver(driver);
         }
     }
 }

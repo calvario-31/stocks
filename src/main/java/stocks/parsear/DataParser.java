@@ -50,6 +50,7 @@ public class DataParser {
     }
 
     private static boolean isBoolean(String str) {
-        return "true".equals(str) || "false".equals(str);
+        final var lowerStr = str.toLowerCase();
+        return "true".equals(lowerStr) || "false".equals(lowerStr);
     }
 }
