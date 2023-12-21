@@ -5,9 +5,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import stocks.model.SingleData;
 import stocks.page.BasePage;
 import stocks.utilities.Logs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TechnicalStrategy extends BasePage {
@@ -39,7 +41,7 @@ public class TechnicalStrategy extends BasePage {
     }
 
     public void selectListELement(String value, WebElement node) {
-        Logs.debug("Selecting list value: %s", value);
+        Logs.trace("Selecting list value: %s", value);
         final var input = node.findElement(By.cssSelector("span[data-role='listbox']"));
 
         input.click();
@@ -47,7 +49,7 @@ public class TechnicalStrategy extends BasePage {
     }
 
     public void selectCheckboxValue(Boolean isEnabled, WebElement node) {
-        Logs.debug("Setting checkbox to: %b", isEnabled);
+        Logs.trace("Setting checkbox to: %b", isEnabled);
         final var inputCheckbox = node.findElement(By.cssSelector("input"));
 
         final var currentlyIsEnabled = inputCheckbox.isSelected();
@@ -62,7 +64,7 @@ public class TechnicalStrategy extends BasePage {
     }
 
     public void fillNumericValue(int value, WebElement node) {
-        Logs.debug("Setting value to: %d", value);
+        Logs.trace("Setting value to: %d", value);
         final var input = node.findElement(By.cssSelector("input"));
 
         new Actions(driver)
@@ -72,6 +74,44 @@ public class TechnicalStrategy extends BasePage {
                 .perform();
 
         input.sendKeys(String.valueOf(value));
+    }
+
+    public List<SingleData> getCurrentInfo() {
+        final var infoList = new ArrayList<SingleData>();
+        final var inputList = getInputData();
+
+        for (var input : inputList) {
+            if (isNumeric(input)) {
+                final var number = Integer.parseInt(input.findElement(By.xpath(".//input[@inputmode='numeric']")).getAttribute("value"));
+                infoList.add(new SingleData(number));
+            } else if (isCheckbox(input)) {
+                final var checked = input.findElement(By.xpath(".//input[@type='checkbox']")).getAttribute("value");
+                if (checked.equals("on")) {
+                    infoList.add(new SingleData(true));
+                } else {
+                    infoList.add(new SingleData(false));
+                }
+            } else if (isList(input)) {
+                final var text = input.findElement(By.xpath(".//span[contains(@class, 'button-children')]/span")).getText();
+                infoList.add(new SingleData(text));
+            } else {
+                Logs.error("no matching input type");
+            }
+        }
+
+        return infoList;
+    }
+
+    private boolean isNumeric(WebElement node) {
+        return !node.findElements(By.xpath(".//input[@inputmode='numeric']")).isEmpty();
+    }
+
+    private boolean isCheckbox(WebElement node) {
+        return !node.findElements(By.xpath(".//input[@type='checkbox']")).isEmpty();
+    }
+
+    private boolean isList(WebElement node) {
+        return !node.findElements(By.xpath(".//span[@data-role='listbox']")).isEmpty();
     }
 
     @Override

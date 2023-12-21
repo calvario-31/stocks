@@ -37,6 +37,15 @@ public class SingleData {
         return inputType;
     }
 
+    @Override
+    public String toString() {
+        return switch (inputType) {
+            case LIST -> getStringValue();
+            case CHECKBOX -> String.valueOf(isBooleanValue());
+            case NUMERIC -> String.valueOf(getNumericValue());
+        };
+    }
+
     public enum InputType {
         NUMERIC,
         CHECKBOX,

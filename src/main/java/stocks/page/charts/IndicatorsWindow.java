@@ -12,11 +12,6 @@ public class IndicatorsWindow extends BasePage {
     private final By closeButton = By.cssSelector("button[data-name='close']");
     private final By results = By.cssSelector("div[data-role='list-item']");
 
-    private By getStrategy(String name) {
-        final var xpathLocator = String.format("//span[text()='%s']", name);
-        return By.xpath(xpathLocator);
-    }
-
     @Override
     public void waitPageToLoad() {
         waitPage(strategiesTab, this.getClass().getSimpleName());

@@ -85,6 +85,10 @@ public class Logs {
         log.error(message);
     }
 
+    public static void trace(String format, Object... args) {
+        log.trace(new Formatter().format(format, args).toString());
+    }
+
     public static void debug(String format, Object... args) {
         log.debug(new Formatter().format(format, args).toString());
     }

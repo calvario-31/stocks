@@ -1,6 +1,7 @@
 package stocks;
 
 import org.openqa.selenium.WebDriver;
+import stocks.model.Data;
 import stocks.utilities.AutomationUtils;
 import stocks.utilities.FileManager;
 import stocks.utilities.Flows;
@@ -32,10 +33,21 @@ public class Main {
                 flows.fillData(data);
             }
 
+            final var message = """
+                                        
+                    *******************************************
+                    BEST:
+                    *******************************************
+                    %s
+                    """;
+
+            Logs.info(message, Data.getBestData());
+            System.out.printf(message, Data.getBestData());
+
         } catch (Exception e) {
-            Logs.error("exception: %s, %s", e.getClass().getSimpleName(), e.getLocalizedMessage());
+            Logs.error("Exception: %s, %s", e.getClass().getSimpleName(), e.getLocalizedMessage());
         } finally {
-            // AutomationUtils.killDriver(driver);
+            AutomationUtils.killDriver(driver);
         }
     }
 }

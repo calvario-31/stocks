@@ -3,6 +3,7 @@ package stocks.utilities;
 import org.openqa.selenium.WebDriver;
 import stocks.model.Data;
 import stocks.page.charts.IndicatorsWindow;
+import stocks.page.charts.LeftBar;
 import stocks.page.charts.SuperChartBottomBar;
 import stocks.page.charts.SuperChartTopBar;
 import stocks.page.login.IndexPage;
@@ -21,6 +22,7 @@ public class Flows {
         goToIndex();
         login(username, password);
         navigateChartPage();
+        new LeftBar(driver).removingIndicators();
     }
 
     public void goToIndex() {
@@ -74,11 +76,13 @@ public class Flows {
         final var n = data.getListData().size();
         final var inputList = technicalStrategy.getInputData();
 
-        Logs.info("Filling data with size: %d", n);
+        Logs.debug("Filling data with size: %d", n);
 
         for (var i = 0; i < n; i++) {
             final var currentData = data.getListData().get(i);
             final var currentElement = inputList.get(i);
+
+            Logs.debug("actual: %s", currentData);
 
             switch (currentData.getInputType()) {
                 case NUMERIC -> technicalStrategy.fillNumericValue(currentData.getNumericValue(), currentElement);
@@ -86,13 +90,15 @@ public class Flows {
                 case CHECKBOX -> technicalStrategy.selectCheckboxValue(currentData.isBooleanValue(), currentElement);
             }
 
-            AutomationUtils.automationSleep(500);
+            AutomationUtils.automationSleep(1000);
 
-            Logs.info("Gathering results");
+            Logs.debug("Gathering results");
             final var superChartBottomBar = new SuperChartBottomBar(driver);
-            final var result = superChartBottomBar.getCurrentResults();
-            Logs.info("result: %s", result);
-            data.setResult(result);
+            final var currentResult = superChartBottomBar.getCurrentResults();
+
+            if (currentResult != null) {
+                Data.compareUpdate(currentResult, technicalStrategy);
+            }
         }
     }
 }

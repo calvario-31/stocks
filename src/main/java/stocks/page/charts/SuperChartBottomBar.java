@@ -28,7 +28,7 @@ public class SuperChartBottomBar extends BasePage {
     }
 
     public Result getCurrentResults() {
-        final var customWait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        final var customWait = new WebDriverWait(driver, Duration.ofSeconds(3));
         try {
             //can trigger the exception is not visible within 3 sec
             customWait.until(ExpectedConditions.visibilityOfElementLocated(results));
@@ -59,7 +59,7 @@ public class SuperChartBottomBar extends BasePage {
                     profitFactor, maxDrawDown1, maxDrawDown2, avgTrade1, avgTrade2, avgNumberBarsInTrades
             );
         } catch (TimeoutException e) { //no results
-            Logs.error("TimeoutException no results: %s", e.getLocalizedMessage());
+            Logs.error("Catch TimeoutException no results: %s", e.getLocalizedMessage());
             assert driver.findElement(noResults).isDisplayed(); //no results prompt should appear
             return null;
         }

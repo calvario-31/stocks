@@ -13,6 +13,10 @@
             <PatternLayout pattern="${pattern}"/>
         </File>
 
+        <File name="logsTrace" fileName="src/test/resources/logs/traceLogs.log" append="false">
+            <PatternLayout pattern="${pattern}"/>
+        </File>
+
         <Console name="stderr" target="SYSTEM_ERR">
             <PatternLayout pattern="${pattern}"/>
         </Console>
@@ -22,6 +26,7 @@
         <root level="debug">
             <appender-ref ref="logsInfo" level="info"/>
             <appender-ref ref="logsDebug" level="debug"/>
+            <appender-ref ref="logsTrace" level="trace"/>
         </root>
     </loggers>
 </configuration>
