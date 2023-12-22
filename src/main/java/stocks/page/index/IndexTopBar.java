@@ -1,4 +1,4 @@
-package stocks.page.login;
+package stocks.page.index;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -30,10 +30,5 @@ public class IndexTopBar extends BasePage {
 
         Logs.info("Clicking superchart");
         actions.click().perform();
-    }
-
-    @Override
-    public void goToPage() {
-
     }
 }

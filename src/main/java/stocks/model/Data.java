@@ -1,6 +1,6 @@
 package stocks.model;
 
-import stocks.page.technical.TechnicalStrategy;
+import stocks.page.modals.TechnicalStrategyWindow;
 import stocks.utilities.Logs;
 
 import java.util.List;
@@ -23,13 +23,13 @@ public class Data {
         return listData;
     }
 
-    public static void compareUpdate(Result result, TechnicalStrategy technicalStrategy) {
+    public static void compareUpdate(Result result, TechnicalStrategyWindow technicalStrategyWindow) {
         if (bestData == null) {
-            bestData = new Data(technicalStrategy.getCurrentInfo(), result);
+            bestData = new Data(technicalStrategyWindow.getCurrentInfo(), result);
             printNewResult();
         } else {
             if (bestData.result.netProfit2() < result.netProfit2()) {
-                bestData = new Data(technicalStrategy.getCurrentInfo(), result);
+                bestData = new Data(technicalStrategyWindow.getCurrentInfo(), result);
                 printNewResult();
             }
         }

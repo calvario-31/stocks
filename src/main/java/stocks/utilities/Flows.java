@@ -3,14 +3,17 @@ package stocks.utilities;
 import org.openqa.selenium.WebDriver;
 import stocks.model.Data;
 import stocks.model.ResultFilter;
-import stocks.page.charts.IndicatorsWindow;
+import stocks.page.charts.AlertPanel;
+import stocks.page.charts.BottomBar;
 import stocks.page.charts.LeftBar;
-import stocks.page.charts.SuperChartBottomBar;
-import stocks.page.charts.SuperChartTopBar;
-import stocks.page.login.IndexPage;
-import stocks.page.login.IndexTopBar;
-import stocks.page.login.LoginPage;
-import stocks.page.technical.TechnicalStrategy;
+import stocks.page.charts.RightBar;
+import stocks.page.charts.TopBar;
+import stocks.page.index.IndexPage;
+import stocks.page.index.IndexTopBar;
+import stocks.page.index.LoginPage;
+import stocks.page.modals.AlertWindow;
+import stocks.page.modals.IndicatorsWindow;
+import stocks.page.modals.TechnicalStrategyWindow;
 
 public class Flows {
     private final WebDriver driver;
@@ -24,6 +27,7 @@ public class Flows {
         login(username, password);
         navigateChartPage();
         new LeftBar(driver).removingIndicators();
+        new RightBar(driver).clickAlertButton();
     }
 
     public void goToIndex() {
@@ -45,16 +49,22 @@ public class Flows {
         final var indexTopBar = new IndexTopBar(driver);
         indexTopBar.goToSuperChart();
 
-        new SuperChartTopBar(driver).waitPageToLoad();
+        new TopBar(driver).waitPageToLoad();
     }
 
-    public void selectInterval(int time) {
-        final var superChartTopBar = new SuperChartTopBar(driver);
+    public void setupPreconditions(int intervalTime, String strategyName) {
+        selectInterval(intervalTime);
+        deleteAlerts();
+        selectStrategy(strategyName);
+    }
+
+    private void selectInterval(int time) {
+        final var superChartTopBar = new TopBar(driver);
         superChartTopBar.selectInterval(time);
     }
 
-    public void selectStrategy(String strategyName) {
-        final var topBar = new SuperChartTopBar(driver);
+    private void selectStrategy(String strategyName) {
+        final var topBar = new TopBar(driver);
         topBar.waitPageToLoad();
         topBar.clickIndicatorsTab();
 
@@ -66,16 +76,27 @@ public class Flows {
         topBar.waitPageToLoad();
         AutomationUtils.automationSleep(500);
 
-        final var superChartBottomBar = new SuperChartBottomBar(driver);
+        final var superChartBottomBar = new BottomBar(driver);
         superChartBottomBar.clickSettingsButton();
 
-        new TechnicalStrategy(driver).waitPageToLoad();
+        new TechnicalStrategyWindow(driver).waitPageToLoad();
+    }
+
+    private void deleteAlerts() {
+        final var alertPanel = new AlertPanel(driver);
+
+        if (!alertPanel.isOpen()) { //we only click if it is closed
+            new RightBar(driver).clickAlertButton();
+        }
+
+        alertPanel.removeAllAlertsButton();
     }
 
     public void fillData(Data data, ResultFilter resultFilter) {
-        final var technicalStrategy = new TechnicalStrategy(driver);
+        Logs.info("Filling all data");
+        final var technicalStrategy = new TechnicalStrategyWindow(driver);
         final var n = data.getListData().size();
-        final var inputList = technicalStrategy.getInputData();
+        final var inputList = technicalStrategy.getWebElementInputList();
 
         Logs.debug("Filling data with size: %d", n);
 
@@ -94,7 +115,7 @@ public class Flows {
             AutomationUtils.automationSleep(1000);
 
             Logs.debug("Gathering results");
-            final var superChartBottomBar = new SuperChartBottomBar(driver);
+            final var superChartBottomBar = new BottomBar(driver);
             final var currentResult = superChartBottomBar.getCurrentResults();
 
             //only compares to the new one if is not null and is a wanted one according to the filters
@@ -102,5 +123,36 @@ public class Flows {
                 Data.compareUpdate(currentResult, technicalStrategy);
             }
         }
+    }
+
+
+    public void alertBestResults() {
+        final var technicalStrategy = new TechnicalStrategyWindow(driver);
+        final var inputDataList = Data.getBestData().getListData(); //the combination of inputs
+        final var webElementInputList = technicalStrategy.getWebElementInputList(); //the web elements
+        final var n = inputDataList.size();
+
+        for (var i = 0; i < n; i++) {
+            final var currentData = inputDataList.get(i);
+            final var currentElement = webElementInputList.get(i);
+
+            Logs.debug("actual: %s", currentData);
+
+            switch (currentData.getInputType()) {
+                case NUMERIC -> technicalStrategy.fillNumericValue(currentData.getNumericValue(), currentElement);
+                case LIST -> technicalStrategy.selectListELement(currentData.getStringValue(), currentElement);
+                case CHECKBOX -> technicalStrategy.selectCheckboxValue(currentData.isBooleanValue(), currentElement);
+            }
+
+            AutomationUtils.automationSleep(500);
+        }
+
+        technicalStrategy.clickOnOk();
+
+        new BottomBar(driver).clickClockButton();
+
+        final var alertWindow = new AlertWindow(driver);
+        alertWindow.waitPageToLoad();
+        alertWindow.clickCreate();
     }
 }

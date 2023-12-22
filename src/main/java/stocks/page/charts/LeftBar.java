@@ -10,6 +10,10 @@ public class LeftBar extends BasePage {
     private final By thrashIcon = By.cssSelector("button[data-tooltip='Remove objects']");
     private final By removeIndicators = By.cssSelector("div[data-name='remove-studies']");
 
+    public LeftBar(WebDriver driver) {
+        super(driver);
+    }
+
     @Override
     public void waitPageToLoad() {
 
@@ -19,14 +23,5 @@ public class LeftBar extends BasePage {
         Logs.info("Removing indicators");
         driver.findElement(thrashIcon).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(removeIndicators)).click();
-    }
-
-    public LeftBar(WebDriver driver) {
-        super(driver);
-    }
-
-    @Override
-    public void goToPage() {
-
     }
 }

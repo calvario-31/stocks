@@ -1,4 +1,4 @@
-package stocks.page.login;
+package stocks.page.index;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -64,10 +64,5 @@ public class LoginPage extends BasePage {
         }
 
         AutomationUtils.automationSleep(2500);
-    }
-
-    @Override
-    public void goToPage() {
-
     }
 }

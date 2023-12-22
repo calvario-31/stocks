@@ -2,7 +2,7 @@ package stocks.utilities;
 
 import stocks.model.Credential;
 import stocks.model.Data;
-import stocks.parsear.DataParser;
+import stocks.parser.DataParser;
 
 import java.io.File;
 import java.util.List;

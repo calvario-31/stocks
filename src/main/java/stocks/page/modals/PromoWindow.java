@@ -1,4 +1,4 @@
-package stocks.page.others;
+package stocks.page.modals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -28,10 +28,5 @@ public class PromoWindow extends BasePage {
         new Actions(driver)
                 .doubleClick(popUpCLoseButtonElement)
                 .perform();
-    }
-
-    @Override
-    public void goToPage() {
-
     }
 }

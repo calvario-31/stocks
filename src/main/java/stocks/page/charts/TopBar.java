@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import stocks.page.BasePage;
 import stocks.utilities.Logs;
 
-public class SuperChartTopBar extends BasePage {
+public class TopBar extends BasePage {
     private final By indicatorsOption = By.id("header-toolbar-indicators");
     private final By intervalOption = By.id("header-toolbar-intervals");
     private final By saveButton = By.id("header-toolbar-save-load");
@@ -15,13 +15,13 @@ public class SuperChartTopBar extends BasePage {
         return By.cssSelector(cssString);
     }
 
+    public TopBar(WebDriver driver) {
+        super(driver);
+    }
+
     @Override
     public void waitPageToLoad() {
         waitPage(indicatorsOption, this.getClass().getSimpleName());
-    }
-
-    public SuperChartTopBar(WebDriver driver) {
-        super(driver);
     }
 
     public void selectInterval(int intervalTime) {
@@ -39,10 +39,5 @@ public class SuperChartTopBar extends BasePage {
     public void clickOnSave() {
         Logs.info("Clicking on save changes");
         driver.findElement(saveButton).click();
-    }
-
-    @Override
-    public void goToPage() {
-
     }
 }

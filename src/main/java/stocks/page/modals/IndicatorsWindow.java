@@ -1,4 +1,4 @@
-package stocks.page.charts;
+package stocks.page.modals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -39,10 +39,5 @@ public class IndicatorsWindow extends BasePage {
     public void closeWindow() {
         Logs.info("Closing window");
         driver.findElement(closeButton).click();
-    }
-
-    @Override
-    public void goToPage() {
-
     }
 }

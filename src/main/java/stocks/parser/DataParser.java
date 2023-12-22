@@ -1,4 +1,4 @@
-package stocks.parsear;
+package stocks.parser;
 
 import stocks.model.Data;
 import stocks.model.SingleData;

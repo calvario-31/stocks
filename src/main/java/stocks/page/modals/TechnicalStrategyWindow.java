@@ -1,4 +1,4 @@
-package stocks.page.technical;
+package stocks.page.modals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -12,9 +12,8 @@ import stocks.utilities.Logs;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TechnicalStrategy extends BasePage {
+public class TechnicalStrategyWindow extends BasePage {
     private final By okButton = By.name("submit");
-    private final By cancelButton = By.name("cancel");
     private final By inputs = By.xpath("//div[@data-name='indicator-properties-dialog']//div[contains(@class,'content')]/div[not(contains(@class, 'first'))]");
 
     private By getListOption(String value) {
@@ -22,7 +21,7 @@ public class TechnicalStrategy extends BasePage {
         return By.xpath(xpathString);
     }
 
-    public TechnicalStrategy(WebDriver driver) {
+    public TechnicalStrategyWindow(WebDriver driver) {
         super(driver);
     }
 
@@ -31,7 +30,7 @@ public class TechnicalStrategy extends BasePage {
         waitPage(okButton, this.getClass().getSimpleName());
     }
 
-    public List<WebElement> getInputData() {
+    public List<WebElement> getWebElementInputList() {
         return driver.findElements(inputs);
     }
 
@@ -78,7 +77,7 @@ public class TechnicalStrategy extends BasePage {
 
     public List<SingleData> getCurrentInfo() {
         final var infoList = new ArrayList<SingleData>();
-        final var inputList = getInputData();
+        final var inputList = getWebElementInputList();
 
         for (var input : inputList) {
             if (isNumeric(input)) {
@@ -112,10 +111,5 @@ public class TechnicalStrategy extends BasePage {
 
     private boolean isList(WebElement node) {
         return !node.findElements(By.xpath(".//span[@data-role='listbox']")).isEmpty();
-    }
-
-    @Override
-    public void goToPage() {
-
     }
 }

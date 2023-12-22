@@ -12,13 +12,13 @@ import stocks.utilities.StringUtils;
 
 import java.time.Duration;
 
-public class SuperChartBottomBar extends BasePage {
+public class BottomBar extends BasePage {
     private final By cogButton = By.cssSelector("button[title='Settings']");
     private final By clockButton = By.cssSelector("button[title='Add alert']");
     private final By results = By.xpath("//div[contains(@class,'secondRow')]");
     private final By noResults = By.xpath("//span[text()='Caution!']");
 
-    public SuperChartBottomBar(WebDriver driver) {
+    public BottomBar(WebDriver driver) {
         super(driver);
     }
 
@@ -68,11 +68,6 @@ public class SuperChartBottomBar extends BasePage {
     public void clickClockButton() {
         Logs.info("Clicking on settings options");
         driver.findElement(clockButton).click();
-    }
-
-    @Override
-    public void goToPage() {
-
     }
 
     @Override

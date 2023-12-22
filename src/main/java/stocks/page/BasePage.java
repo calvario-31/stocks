@@ -24,7 +24,5 @@ public abstract class BasePage {
         Logs.info("%s loaded successfully", pageName);
     }
 
-    public abstract void goToPage();
-
     public abstract void waitPageToLoad();
 }
