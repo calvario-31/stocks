@@ -2,6 +2,7 @@ package stocks.utilities;
 
 import org.openqa.selenium.WebDriver;
 import stocks.model.Data;
+import stocks.model.ResultFilter;
 import stocks.page.charts.IndicatorsWindow;
 import stocks.page.charts.LeftBar;
 import stocks.page.charts.SuperChartBottomBar;
@@ -71,7 +72,7 @@ public class Flows {
         new TechnicalStrategy(driver).waitPageToLoad();
     }
 
-    public void fillData(Data data) {
+    public void fillData(Data data, ResultFilter resultFilter) {
         final var technicalStrategy = new TechnicalStrategy(driver);
         final var n = data.getListData().size();
         final var inputList = technicalStrategy.getInputData();
@@ -96,7 +97,8 @@ public class Flows {
             final var superChartBottomBar = new SuperChartBottomBar(driver);
             final var currentResult = superChartBottomBar.getCurrentResults();
 
-            if (currentResult != null) {
+            //only compares to the new one if is not null and is a wanted one according to the filters
+            if (currentResult != null && resultFilter.isWantedResult(currentResult)) {
                 Data.compareUpdate(currentResult, technicalStrategy);
             }
         }

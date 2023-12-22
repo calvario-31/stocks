@@ -1,6 +1,7 @@
 package stocks.utilities;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class FileManager {
@@ -55,5 +57,17 @@ public class FileManager {
         } catch (IOException ioException) {
             Logs.error("IOException: %s", ioException.getLocalizedMessage());
         }
+    }
+
+    public static Properties readProperties(String path) {
+        final var properties = new Properties();
+
+        try {
+            properties.load(new FileInputStream(path));
+        } catch (IOException ioException) {
+            Logs.error("Cannot read properties, IOException: %s", ioException.getLocalizedMessage());
+        }
+
+        return properties;
     }
 }

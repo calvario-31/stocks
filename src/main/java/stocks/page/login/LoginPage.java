@@ -1,6 +1,7 @@
 package stocks.page.login;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -43,20 +44,24 @@ public class LoginPage extends BasePage {
         Logs.info("Clicking sign in button");
         driver.findElement(signInButton).click();
 
-        Logs.debug("Changing context to iframe");
-        final var iframeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(iframeLocator));
+        try {
+            Logs.debug("Changing context to iframe");
+            final var iframeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(iframeLocator));
 
-        driver.switchTo().frame(iframeElement);
+            driver.switchTo().frame(iframeElement);
 
-        final var customWait = new WebDriverWait(driver, Duration.ofSeconds(180));
-        Logs.info("Waiting captach to be filled for 180 sec");
-        customWait.until(ExpectedConditions.visibilityOfElementLocated(checkIcon));
+            final var customWait = new WebDriverWait(driver, Duration.ofSeconds(180));
+            Logs.info("Waiting captcha to be filled for 180 sec");
+            customWait.until(ExpectedConditions.visibilityOfElementLocated(checkIcon));
 
-        Logs.debug("Returning to default context");
-        driver.switchTo().defaultContent();
+            Logs.debug("Returning to default context");
+            driver.switchTo().defaultContent();
 
-        Logs.info("Clicking sign in button");
-        driver.findElement(signInButton).click();
+            Logs.info("Clicking sign in button");
+            driver.findElement(signInButton).click();
+        } catch (TimeoutException timeoutException) {
+            Logs.info("Captacha did not appeared");
+        }
 
         AutomationUtils.automationSleep(2500);
     }
