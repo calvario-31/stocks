@@ -51,7 +51,7 @@ public class Main {
         } catch (Exception e) {
             Logs.error("Exception: %s, %s", e.getClass().getSimpleName(), e.getLocalizedMessage());
         } finally {
-            //   AutomationUtils.killDriver(driver);
+            AutomationUtils.killDriver(driver);
         }
     }
 
