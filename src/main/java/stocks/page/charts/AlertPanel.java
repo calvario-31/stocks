@@ -24,13 +24,10 @@ public class AlertPanel extends BasePage {
         Logs.info("Clicking three dots");
         wait.until(ExpectedConditions.visibilityOfElementLocated(threeDotsButton)).click();
         Logs.info("Removing all alerts");
-        final var removeAllAlertsElement =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(removeAllAlertsButton));
-        removeAllAlertsElement.click();
-
-        Logs.info("Clicking yes on the modal");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(removeAllAlertsButton)).click();
 
         try {
+            Logs.info("Clicking yes on the modal");
             final var customWait = new WebDriverWait(driver, Duration.ofSeconds(1));
             customWait.until(ExpectedConditions.visibilityOfElementLocated(yesButton)).click();
             Logs.info("Deleting alerts");

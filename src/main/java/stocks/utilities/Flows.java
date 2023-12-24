@@ -153,6 +153,6 @@ public class Flows {
 
         final var alertWindow = new AlertWindow(driver);
         alertWindow.waitPageToLoad();
-        alertWindow.clickCreate();
+        alertWindow.createAlert();
     }
 }
