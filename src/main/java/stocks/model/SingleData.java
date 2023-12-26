@@ -21,6 +21,13 @@ public class SingleData {
         this.inputType = InputType.LIST;
     }
 
+    public boolean isEmpty() {
+        if (this.stringValue == null) {
+            return false;
+        }
+        return stringValue.equals("null");
+    }
+
     public int getNumericValue() {
         return numericValue;
     }

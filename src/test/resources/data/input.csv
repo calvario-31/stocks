@@ -1,5 +1,5 @@
-all,2015,1,1,2029,1,1,close,Ehma,56,false,false,false,1,40
-long,2016,1,1,2029,1,1,hl2,Hma,55,false,false,false,1,40
-short,2015,1,1,2029,1,1,hlc3,Hma,40,true,false,false,1,40
-short,2016,1,1,2029,1,1,hlc3,Hma,45,true,false,true,1,40
-short,2016,1,1,2029,1,1,hlcc4,Ehma,48,true,false,true,1,40
+null,null,null,null,null,null,null,open,Hma,50,null,null,null,null,null
+null,null,null,null,null,null,null,high,Hma,58,null,null,null,null,null
+null,null,null,null,null,null,null,high,Hma,42,null,null,null,null,null
+null,null,null,null,null,null,null,low,Hma,44,null,null,null,null,null
+null,null,null,null,null,null,null,high,Hma,43,null,null,null,null,null

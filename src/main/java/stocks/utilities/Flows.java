@@ -117,25 +117,32 @@ public class Flows {
 
         for (var i = 0; i < n; i++) {
             final var currentData = data.getListData().get(i);
-            final var currentElement = inputList.get(i);
 
-            Logs.debug("actual: %s", currentData);
+            if (!currentData.isEmpty()) {
+                Logs.debug("not empty");
+                final var currentElement = inputList.get(i);
 
-            switch (currentData.getInputType()) {
-                case NUMERIC -> technicalStrategy.fillNumericValue(currentData.getNumericValue(), currentElement);
-                case LIST -> technicalStrategy.selectListELement(currentData.getStringValue(), currentElement);
-                case CHECKBOX -> technicalStrategy.selectCheckboxValue(currentData.isBooleanValue(), currentElement);
-            }
+                Logs.debug("actual: %s", currentData);
 
-            AutomationUtils.automationSleep(1000);
+                switch (currentData.getInputType()) {
+                    case NUMERIC -> technicalStrategy.fillNumericValue(currentData.getNumericValue(), currentElement);
+                    case LIST -> technicalStrategy.selectListELement(currentData.getStringValue(), currentElement);
+                    case CHECKBOX ->
+                            technicalStrategy.selectCheckboxValue(currentData.isBooleanValue(), currentElement);
+                }
 
-            Logs.debug("Gathering results");
-            final var superChartBottomBar = new BottomBar(driver);
-            final var currentResult = superChartBottomBar.getCurrentResults();
+                AutomationUtils.automationSleep(1000);
 
-            //only compares to the new one if is not null and is a wanted one according to the filters
-            if (currentResult != null && resultFilter.isWantedResult(currentResult)) {
-                Data.compareUpdate(currentResult, technicalStrategy);
+                Logs.debug("Gathering results");
+                final var superChartBottomBar = new BottomBar(driver);
+                final var currentResult = superChartBottomBar.getCurrentResults();
+
+                //only compares to the new one if is not null and is a wanted one according to the filters
+                if (currentResult != null && resultFilter.isWantedResult(currentResult)) {
+                    Data.compareUpdate(currentResult, technicalStrategy);
+                }
+            } else {
+                Logs.debug("Empty passing");
             }
         }
     }
