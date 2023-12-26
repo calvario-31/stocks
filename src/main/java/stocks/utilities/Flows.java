@@ -54,7 +54,6 @@ public class Flows {
 
     public void setupPreconditions(int intervalTime, String strategyName) {
         selectInterval(intervalTime);
-        deleteAlerts();
         selectStrategy(strategyName);
     }
 
@@ -79,21 +78,37 @@ public class Flows {
         final var superChartBottomBar = new BottomBar(driver);
         superChartBottomBar.clickSettingsButton();
 
-        new TechnicalStrategyWindow(driver).waitPageToLoad();
+        final var technicalStrategyWindow = new TechnicalStrategyWindow(driver);
+        technicalStrategyWindow.waitPageToLoad();
+
+        final var previousBestData = new Data(
+                technicalStrategyWindow.getCurrentInfo(),
+                new BottomBar(driver).getCurrentResults()
+        );
+
+        Data.setPreviousBestResult(previousBestData);
+        System.out.printf("previous best results: %s", Data.getPreviousBestData());
     }
 
     private void deleteAlerts() {
         final var alertPanel = new AlertPanel(driver);
 
         if (!alertPanel.isOpen()) { //we only click if it is closed
+            Logs.info("Opening alert panel");
             new RightBar(driver).clickAlertButton();
+        } else {
+            Logs.info("Alert panel was open, no needed to open");
         }
 
-        alertPanel.removeAllAlertsButton();
+        if (!alertPanel.isEmpty()) { //we only remove is it is no empty
+            Logs.info("Alert is not empty, removing alerts");
+            alertPanel.removeAllAlertsButton();
+        } else {
+            Logs.info("Alert is empty, no needed to remove");
+        }
     }
 
     public void fillData(Data data, ResultFilter resultFilter) {
-        Logs.info("Filling all data");
         final var technicalStrategy = new TechnicalStrategyWindow(driver);
         final var n = data.getListData().size();
         final var inputList = technicalStrategy.getWebElementInputList();
@@ -125,13 +140,24 @@ public class Flows {
         }
     }
 
+    public boolean isNewBest() {
+        if (Data.getBestData().getResult().netProfit2() > Data.getPreviousBestData().getResult().netProfit2()) {
+            Data.setBestData(Data.getPreviousBestData());
+            System.out.println("Current is better than the old one, deleting alert and creating a new one");
+            return true;
+        } else {
+            System.out.println("Previous results was better, not deleting the alert");
+            return false;
+        }
+    }
 
-    public void alertBestResults() {
+    public void alertBestResults(boolean deletePrevious) {
         final var technicalStrategy = new TechnicalStrategyWindow(driver);
         final var inputDataList = Data.getBestData().getListData(); //the combination of inputs
         final var webElementInputList = technicalStrategy.getWebElementInputList(); //the web elements
         final var n = inputDataList.size();
 
+        Logs.info("Filling all data with size: %d", n);
         for (var i = 0; i < n; i++) {
             final var currentData = inputDataList.get(i);
             final var currentElement = webElementInputList.get(i);
@@ -149,10 +175,16 @@ public class Flows {
 
         technicalStrategy.clickOnOk();
 
-        new BottomBar(driver).clickClockButton();
+        if (deletePrevious) {
+            Logs.info("Deleting previous alert");
+            deleteAlerts();
 
-        final var alertWindow = new AlertWindow(driver);
-        alertWindow.waitPageToLoad();
-        alertWindow.createAlert();
+            Logs.info("Creating new alert");
+            new BottomBar(driver).clickClockButton();
+
+            final var alertWindow = new AlertWindow(driver);
+            alertWindow.waitPageToLoad();
+            alertWindow.createAlert();
+        }
     }
 }

@@ -15,6 +15,7 @@ public class AlertPanel extends BasePage {
     private final By threeDotsButton = By.cssSelector("div[data-name='alerts-settings-button']");
     private final By removeAllAlertsButton = By.xpath("//span[text()='Remove all']");
     private final By yesButton = By.cssSelector("button[name='yes']");
+    private final By alertName = By.cssSelector("div[data-name='alert-item-description'");
 
     public AlertPanel(WebDriver driver) {
         super(driver);
@@ -45,6 +46,10 @@ public class AlertPanel extends BasePage {
             Logs.info("alert panel closed");
             return false;
         }
+    }
+
+    public boolean isEmpty() {
+        return driver.findElements(alertName).isEmpty();
     }
 
     @Override

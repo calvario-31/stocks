@@ -46,8 +46,13 @@ public class Main {
                 );
             }
 
-            flows.alertBestResults();
+            final var isNewBest = flows.isNewBest();
+
+            flows.alertBestResults(isNewBest);
+
             printMessage();
+
+            AutomationUtils.automationSleep(3000);
         } catch (Exception e) {
             Logs.error("Exception: %s, %s", e.getClass().getSimpleName(), e.getLocalizedMessage());
         } finally {

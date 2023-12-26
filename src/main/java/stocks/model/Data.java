@@ -6,6 +6,7 @@ import stocks.utilities.Logs;
 import java.util.List;
 
 public class Data {
+    private static Data previousBestData;
     private static Data bestData = null;
     private final List<SingleData> listData;
     private Result result;
@@ -35,8 +36,20 @@ public class Data {
         }
     }
 
+    public static void setBestData(Data bestData) {
+        Data.bestData = bestData;
+    }
+
     public static Data getBestData() {
         return bestData;
+    }
+
+    public static void setPreviousBestResult(Data previousBestData) {
+        Data.previousBestData = previousBestData;
+    }
+
+    public static Data getPreviousBestData() {
+        return previousBestData;
     }
 
     public Result getResult() {
