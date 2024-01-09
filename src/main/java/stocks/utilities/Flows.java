@@ -148,7 +148,7 @@ public class Flows {
     }
 
     public boolean isNewBest() {
-        if (Data.getBestData().getResult().netProfit2() > Data.getPreviousBestData().getResult().netProfit2()) {
+        if (Data.getBestData().getResult().netProfit() > Data.getPreviousBestData().getResult().netProfit()) {
             Data.setBestData(Data.getPreviousBestData());
             System.out.println("Current is better than the old one, deleting alert and creating a new one");
             return true;

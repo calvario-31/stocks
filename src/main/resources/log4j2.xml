@@ -5,15 +5,15 @@
     </Properties>
 
     <appenders>
-        <File name="logsInfo" fileName="src/test/resources/logs/informativeLogs.log" append="false">
+        <File name="logsInfo" fileName="src/main/resources/logs/informativeLogs.log" append="false">
             <PatternLayout pattern="${pattern}"/>
         </File>
 
-        <File name="logsDebug" fileName="src/test/resources/logs/debugLogs.log" append="false">
+        <File name="logsDebug" fileName="src/main/resources/logs/debugLogs.log" append="false">
             <PatternLayout pattern="${pattern}"/>
         </File>
 
-        <File name="logsTrace" fileName="src/test/resources/logs/traceLogs.log" append="false">
+        <File name="logsTrace" fileName="src/main/resources/logs/traceLogs.log" append="false">
             <PatternLayout pattern="${pattern}"/>
         </File>
 

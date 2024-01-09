@@ -1,5 +1,6 @@
 package stocks.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import stocks.page.modals.TechnicalStrategyWindow;
 import stocks.utilities.Logs;
 
@@ -8,8 +9,13 @@ import java.util.List;
 public class Data {
     private static Data previousBestData;
     private static Data bestData = null;
-    private final List<SingleData> listData;
+    @JsonProperty("combination")
+    private List<SingleData> listData;
+    @JsonProperty("result")
     private Result result;
+
+    public Data() { //needed to deserialize
+    }
 
     public Data(List<SingleData> listData) {
         this.listData = listData;
@@ -29,7 +35,7 @@ public class Data {
             bestData = new Data(technicalStrategyWindow.getCurrentInfo(), result);
             printNewResult();
         } else {
-            if (bestData.result.netProfit2() < result.netProfit2()) {
+            if (bestData.result.netProfit() < result.netProfit()) {
                 bestData = new Data(technicalStrategyWindow.getCurrentInfo(), result);
                 printNewResult();
             }

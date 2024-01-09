@@ -1,8 +1,9 @@
 package stocks;
 
 import org.openqa.selenium.WebDriver;
+import stocks.api.CombinationApi;
+import stocks.api.FilterApi;
 import stocks.model.Data;
-import stocks.model.ResultFilter;
 import stocks.utilities.AutomationUtils;
 import stocks.utilities.FileManager;
 import stocks.utilities.Flows;
@@ -11,16 +12,13 @@ import stocks.utilities.TestData;
 
 public class Main {
     private static WebDriver driver;
-    private static final String csvPath = "src/test/resources/data/input.csv";
-    private static final String propertiesFilePath = "src/test/resources/data/info.properties";
-    private static final String filtersFilePath = "src/test/resources/data/filter.properties";
+    public static final String propertiesFilePath = "src/main/resources/info.properties";
 
     public static void main(String[] args) {
         try {
             FileManager.redirectStdErr();
-            final var filterProperties = FileManager.readProperties(filtersFilePath);
             final var properties = FileManager.readProperties(propertiesFilePath);
-            final var allData = TestData.getAllData(csvPath);
+            final var allData = CombinationApi.getCombinations();
             final var credentials = TestData.getCredentials(properties);
 
             driver = AutomationUtils.setupDriver();
@@ -39,10 +37,13 @@ public class Main {
                     properties.getProperty("strategy")
             );
 
+            //assign first filters according previous data
+            final var filters = FilterApi.getFilters(Data.getPreviousBestData());
+
             for (var data : allData) {
                 flows.fillData(
                         data,
-                        new ResultFilter(filterProperties)
+                        filters
                 );
             }
 

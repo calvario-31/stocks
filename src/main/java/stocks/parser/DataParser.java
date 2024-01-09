@@ -7,15 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataParser {
-    public static List<Data> createDataList(List<String> rawInputList) {
-        final var dataList = new ArrayList<Data>();
+    public static List<Data> createDataList(Object[][] objectMatrix) {
+        final var listData = new ArrayList<Data>(); // all
 
-        for (var rawInput : rawInputList) {
-            final var data = parseData(rawInput);
-            dataList.add(data);
+        for (var outerArray : objectMatrix) {
+            final var singleData = new ArrayList<SingleData>();
+
+            for (var o : outerArray) {
+                if (o instanceof Integer) {
+                    singleData.add(new SingleData((Integer) o));
+                } else if (o instanceof Boolean) {
+                    singleData.add(new SingleData((Boolean) o));
+                } else {
+                    singleData.add(new SingleData((String) o));
+                }
+            }
+            listData.add(new Data(singleData));
         }
-
-        return dataList;
+        return listData;
     }
 
     private static Data parseData(String rawInput) {

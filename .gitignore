@@ -1,5 +1,5 @@
 target/
 .DS_Store
 /.idea/
-/src/test/resources/logs/
 **.iml
+/src/main/resources/logs/

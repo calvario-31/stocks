@@ -1,47 +1,47 @@
 package stocks.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import stocks.utilities.Logs;
 
-import java.util.Properties;
-
-public class ResultFilter {
+public record ResultFilter(
+        @JsonProperty("netProfit") String netProfitFilter,
+        @JsonProperty("grossProfit") String grossProfitFilter,
+        @JsonProperty("grossLoss") String grossLossFilter,
+        @JsonProperty("maxRunUp") String maxRunUpFilter,
+        @JsonProperty("maxDrawdown") String maxDrawDownFilter,
+        @JsonProperty("buyHoldReturn") String buyHoldReturnFilter,
+        @JsonProperty("sharpeRatio") String sharpeRatioFilter,
+        @JsonProperty("sortinoRatio") String sortinoRatioFilter,
+        @JsonProperty("profitFactor") String profitFactorFilter,
+        @JsonProperty("maxContractsHeld") String maxContractsHeldFilter,
+        @JsonProperty("openPL") String openPLFilter,
+        @JsonProperty("commissionPaid") String commissionPaidFilter,
+        @JsonProperty("totalClosedTrades") String totalClosedTradesFilter,
+        @JsonProperty("totalOpenTrades") String totalOpenTradesFilter,
+        @JsonProperty("numberWinningTrades") String numberWinningTradesFilter,
+        @JsonProperty("numberLosingTrades") String numberLosingTradesFilter,
+        @JsonProperty("percentProfitable") String percentProfitableFilter,
+        @JsonProperty("avgTrade") String avgTradeFilter,
+        @JsonProperty("avgWinningTrade") String avgWinningTradeFilter,
+        @JsonProperty("avgLosingTrade") String avgLosingTradeFilter,
+        @JsonProperty("ratioAvgWinAvgLoss") String ratioAvgWinAvgLossFilter,
+        @JsonProperty("largestWinningTrade") String largestWinningTradeFilter,
+        @JsonProperty("largestLosingTrade") String largestLosingTradeFilter,
+        @JsonProperty("avgBarsInTrades") String avgBarsInTradesFilter,
+        @JsonProperty("avgBarsInWinningTrades") String avgBarsInWinningTradesFilter,
+        @JsonProperty("avgBarsInLosingTrades") String avgBarsInLosingTradesFilter,
+        @JsonProperty("marginCalls") String marginCallsFilter
+) {
     private final static String separator = ";";
-    private final String netProfit1Filter;
-    private final String netProfit2Filter;
-    private final String totalClosedTradesFilter;
-    private final String percentProfitableFilter;
-    private final String profitFactorFilter;
-    private final String maxDrawDown1Filter;
-    private final String maxDrawDown2Filter;
-    private final String avgTrade1Filter;
-    private final String avgTrade2Filter;
-    private final String avgBarsFilter;
-
-    public ResultFilter(Properties properties) {
-        netProfit1Filter = properties.getProperty("netProfit1");
-        netProfit2Filter = properties.getProperty("netProfit2");
-        totalClosedTradesFilter = properties.getProperty("totalClosedTrades");
-        percentProfitableFilter = properties.getProperty("percentProfitable");
-        profitFactorFilter = properties.getProperty("profitFactor");
-        maxDrawDown1Filter = properties.getProperty("maxDrawDown1");
-        maxDrawDown2Filter = properties.getProperty("maxDrawDown2");
-        avgTrade1Filter = properties.getProperty("avgTrade1");
-        avgTrade2Filter = properties.getProperty("avgTrade2");
-        avgBarsFilter = properties.getProperty("avgBars");
-    }
 
     public boolean isWantedResult(Result result) {
         final var isWantedResult =
-                evaluateFilterDouble("netprofit1", netProfit1Filter, result.netProfit1()) &&
-                evaluateFilterDouble("netprofit2", netProfit2Filter, result.netProfit2()) &&
+                evaluateFilterDouble("netProfit", netProfitFilter, result.netProfit()) &&
                 evaluateFilterInt("totalClosedTrades", totalClosedTradesFilter, result.totalClosedTrades()) &&
                 evaluateFilterDouble("percentProfitable", percentProfitableFilter, result.percentProfitable()) &&
                 evaluateFilterDouble("profitFactor", profitFactorFilter, result.profitFactor()) &&
-                evaluateFilterDouble("maxDrawDown1", maxDrawDown1Filter, result.maxDrawDown1()) &&
-                evaluateFilterDouble("maxDrawDown2", maxDrawDown2Filter, result.maxDrawDown2()) &&
-                evaluateFilterDouble("avgTrade1", avgTrade1Filter, result.avgTrade1()) &&
-                evaluateFilterDouble("avgTrade2", avgTrade2Filter, result.avgTrade2()) &&
-                evaluateFilterInt("avgBars", avgBarsFilter, result.avgBars());
+                evaluateFilterDouble("maxDrawDown", maxDrawDownFilter, result.maxDrawDown()) &&
+                evaluateFilterDouble("avgTrade", avgTradeFilter, result.avgTrade());
 
         Logs.debug("is wanted result? %b", isWantedResult);
         return isWantedResult;
